@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    username: root
+    password: toor
+    url: jdbc:mysql://localhost:3306/mybatis?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  messages:
+    basename: i18n.login
+  mvc:
+    format:
+      date: yyyy-MM-dd
+mybatis:
+  type-aliases-package: com.meehom.demo_helloworld.pojo
+  mapper-locations: classpath:mapper/*.xml
+

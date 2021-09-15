@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meehom.demo_helloworld.mapper.EmployeeMapper">
+
+    <resultMap id="EmployeeMap" type="Employee">
+        <id property="id" column="eid"/>
+        <result property="lastName" column="lastName"/>
+        <result property="email" column="email"/>
+        <result property="gender" column="gender"/>
+        <result property="birth" column="birth"/>
+        <association property="department"  javaType="Department">
+            <id property="id" column="did"/>
+            <result property="department" column="dname"/>
+        </association>
+    </resultMap>
+
+    <select id="queryEmployee" resultMap="EmployeeMap">
+     select e.id as eid,lastName,email,gender,birth,d.id as did,d.department as dname
+        from department d,employee e
+        where d.id = e.department
+  </select>
+
+    <insert id="saveEmployee" parameterType="Employee">
+         insert into employee (lastName,email,gender,department,birth)
+        values (#{lastName},#{email},#{gender},#{department.id},#{birth});
+    </insert>
+
+    <select id="getEmployeeById" parameterType="int" resultMap="EmployeeMap">
+        select e.id as eid,lastName,email,gender,birth,d.id as did,d.department as dname
+        from department d,employee e
+        where d.id = e.department and e.id = #{id}
+    </select>
+
+    <update id="updateEmployee" parameterType="Employee">
+        update employee set id = #{id},
+                            lastName = #{lastName},
+                            email = #{email},
+                            gender = #{gender},
+                            department = #{department.id},
+                            birth = #{birth} where id = #{id}
+    </update>
+
+    <delete id="deleteEmployee" parameterType="int">
+        delete from employee where id = #{id}
+    </delete>
+</mapper>
